@@ -1,9 +1,13 @@
 package com.guilherme.lojavirtual.resources;
 
 import com.guilherme.lojavirtual.domain.Categoria;
+import com.guilherme.lojavirtual.services.CategoriaService;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,12 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaResource {
+    
+    @Autowired
+    CategoriaService service;
 
-    @GetMapping
-    public List<Categoria> list(){
-        Categoria c1 = new Categoria(1,"Informática");
-        Categoria c2 = new Categoria(2,"Escritório");
-        List<Categoria> categorias = Arrays.asList(c1,c2);
-        return categorias;
+    @GetMapping("/{id}")
+    public ResponseEntity<?> list(@PathVariable("id") Integer id){
+        Categoria categoria = service.findById(id);
+       
+        return ResponseEntity.ok(categoria);
     }
 }
