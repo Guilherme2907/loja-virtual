@@ -5,10 +5,14 @@
  */
 package com.guilherme.lojavirtual.domain;
 
+import javax.persistence.Entity;
+
 /**
  *
  * @author Guilherme
  */
+
+@Entity
 public class Categoria extends AbstractEntity<Integer> {
 
     private String nome;

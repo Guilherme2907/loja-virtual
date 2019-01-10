@@ -7,13 +7,18 @@ package com.guilherme.lojavirtual.domain;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.*;
+import javax.persistence.MappedSuperclass;
 
 /**
  *
  * @author Guilherme
  */
+@MappedSuperclass
 public abstract class AbstractEntity<ID extends Serializable> implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     ID id;
 
     public AbstractEntity() {
