@@ -23,7 +23,6 @@ public class CategoriaResource {
     @GetMapping("/{id}")
     public ResponseEntity<?> list(@PathVariable("id") Integer id){
         Categoria categoria = service.findById(id);
-       
         return ResponseEntity.ok(categoria);
     }
 }
