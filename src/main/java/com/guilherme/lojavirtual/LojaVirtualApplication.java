@@ -2,10 +2,15 @@ package com.guilherme.lojavirtual;
 
 import com.guilherme.lojavirtual.domain.Categoria;
 import com.guilherme.lojavirtual.domain.Cidade;
+import com.guilherme.lojavirtual.domain.Cliente;
+import com.guilherme.lojavirtual.domain.Endereco;
 import com.guilherme.lojavirtual.domain.Estado;
 import com.guilherme.lojavirtual.domain.Produto;
+import com.guilherme.lojavirtual.domain.enums.TipoCliente;
 import com.guilherme.lojavirtual.repositories.CategoriaRepository;
 import com.guilherme.lojavirtual.repositories.CidadeRepository;
+import com.guilherme.lojavirtual.repositories.ClienteRepository;
+import com.guilherme.lojavirtual.repositories.EnderecoRepository;
 import com.guilherme.lojavirtual.repositories.EstadoRepository;
 import com.guilherme.lojavirtual.repositories.ProdutoRepository;
 import java.util.Arrays;
@@ -28,6 +33,12 @@ public class LojaVirtualApplication implements CommandLineRunner {
     
     @Autowired
     EstadoRepository estadoRepository;
+    
+    @Autowired
+    ClienteRepository clienteRepository;
+    
+    @Autowired
+    EnderecoRepository enderecoRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(LojaVirtualApplication.class, args);
@@ -64,6 +75,15 @@ public class LojaVirtualApplication implements CommandLineRunner {
         
         estadoRepository.saveAll(Arrays.asList(est1,est2));
         cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
+        
+        Cliente cli1 = new Cliente("Maria Silva", "maria@gmail.com", "397924848", TipoCliente.PESSOAFISICA);
+        cli1.getTelefones().addAll(Arrays.asList("23078956","23075892"));
+        Endereco e1 = new Endereco("Rua Flores", "300", "Apto 203", "jardim", "38220834", c1, cli1);
+        Endereco e2 = new Endereco("Avenida Matos", "105", "Sala 800", "centro", "78954899", c2, cli1);
+        cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+        
+        clienteRepository.save(cli1);
+        enderecoRepository.saveAll(Arrays.asList(e1,e2));
         
     }
 
