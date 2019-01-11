@@ -5,6 +5,7 @@
  */
 package com.guilherme.lojavirtual.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,6 +19,7 @@ public class Cidade extends AbstractEntity<Integer> {
 
     private String nome;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "estado_id")
     private Estado estado;

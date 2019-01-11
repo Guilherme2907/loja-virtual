@@ -11,8 +11,8 @@ package com.guilherme.lojavirtual.domain.enums;
  */
 public enum TipoCliente {
 
-    PESSOAJURIDICA(1, "Pessoa Física"),
-    PESSOAFISICA(2, "Pessoa Jurídica");
+    PESSOAFISICA(1, "Pessoa Física"),
+    PESSOAJURIDICA(2, "Pessoa Jurídica");
 
     private int codigo;
     private String descricao;

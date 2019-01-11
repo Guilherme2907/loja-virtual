@@ -5,6 +5,8 @@
  */
 package com.guilherme.lojavirtual.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
@@ -20,6 +22,7 @@ public class Estado extends AbstractEntity<Integer>{
     
     private String nome;
     
+    @JsonBackReference
     @OneToMany(mappedBy = "estado")        
     List<Cidade> cidades = new ArrayList();
 

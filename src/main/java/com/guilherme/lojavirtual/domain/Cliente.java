@@ -5,6 +5,7 @@
  */
 package com.guilherme.lojavirtual.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.guilherme.lojavirtual.domain.enums.TipoCliente;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,6 +28,7 @@ public class Cliente extends AbstractEntity<Integer> {
     private String email;
     private String cpfOuCnpj;
     private int tipoCliente;
+
 
     @OneToMany(mappedBy = "cidade")
     List<Endereco> enderecos = new ArrayList();

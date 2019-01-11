@@ -5,6 +5,8 @@
  */
 package com.guilherme.lojavirtual.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,6 +29,7 @@ public class Endereco extends AbstractEntity<Integer>{
     @JoinColumn(name = "cidade_id")
     private Cidade cidade;
     
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
