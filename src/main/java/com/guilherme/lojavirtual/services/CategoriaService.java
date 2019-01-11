@@ -7,6 +7,7 @@ package com.guilherme.lojavirtual.services;
 
 import com.guilherme.lojavirtual.domain.Categoria;
 import com.guilherme.lojavirtual.repositories.CategoriaRepository;
+import com.guilherme.lojavirtual.services.exception.ObjectNotFoundErrorCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ public class CategoriaService {
     CategoriaRepository repository;
 
     public Categoria findById(Integer id) {
-        return repository.findById(id).get();
+        return repository.findById(id).orElseThrow(() -> new ObjectNotFoundErrorCustom("Objeto não encontrado para o Id: "
+                + id + ",Tipo: " + Categoria.class.getSimpleName()));
     }
 }

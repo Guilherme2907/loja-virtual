@@ -5,6 +5,7 @@
  */
 package com.guilherme.lojavirtual.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
@@ -20,8 +21,9 @@ public class Categoria extends AbstractEntity<Integer> {
 
     private String nome;
     
+    @JsonManagedReference
     @ManyToMany(mappedBy = "categorias")
-    private List<Produto> produtos = new ArrayList<>();;
+    private List<Produto> produtos = new ArrayList<>();
 
     public Categoria() {
         super();
