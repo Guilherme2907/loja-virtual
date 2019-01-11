@@ -5,7 +5,10 @@
  */
 package com.guilherme.lojavirtual.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -16,13 +19,15 @@ import javax.persistence.Entity;
 public class Categoria extends AbstractEntity<Integer> {
 
     private String nome;
+    
+    @ManyToMany(mappedBy = "categorias")
+    private List<Produto> produtos = new ArrayList<>();;
 
     public Categoria() {
         super();
     }
 
-    public Categoria(Integer id,String nome) {
-        super(id);
+    public Categoria(String nome) {
         this.nome = nome;
     }
     
@@ -33,4 +38,14 @@ public class Categoria extends AbstractEntity<Integer> {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
+    }
+    
+    
 }
