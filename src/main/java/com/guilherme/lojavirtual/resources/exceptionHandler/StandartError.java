@@ -5,6 +5,7 @@
  */
 package com.guilherme.lojavirtual.resources.exceptionHandler;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 
 /**

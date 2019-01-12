@@ -5,7 +5,7 @@
  */
 package com.guilherme.lojavirtual.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.guilherme.lojavirtual.domain.enums.TipoCliente;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,11 +37,11 @@ public class Cliente extends AbstractEntity<Integer> {
     @CollectionTable(name = "telefone")
     Set<String> telefones = new HashSet();
     
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     List<Pedido> pedidos = new ArrayList<>();
 
-   
-    
+ 
     public Cliente() {
     }
 

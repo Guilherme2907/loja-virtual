@@ -5,14 +5,16 @@
  */
 package com.guilherme.lojavirtual.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -22,6 +24,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class Pedido extends AbstractEntity<Integer> {
 
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date instante;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
@@ -31,15 +34,18 @@ public class Pedido extends AbstractEntity<Integer> {
     @JoinColumn(name = "endereco_entrega_id")
     private Endereco enderecoEntrega;
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
+    @OneToMany(mappedBy = "id.pedido")
+    private Set<ItemPedido> itens = new HashSet();
+
     public Pedido() {
     }
 
-    public Pedido(Date instante,Endereco enderecoEntrega, Cliente cliente) {
+    public Pedido(Date instante, Endereco enderecoEntrega, Cliente cliente) {
         this.instante = instante;
         this.enderecoEntrega = enderecoEntrega;
         this.cliente = cliente;
@@ -77,4 +83,11 @@ public class Pedido extends AbstractEntity<Integer> {
         this.cliente = cliente;
     }
 
+    public Set<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(Set<ItemPedido> itens) {
+        this.itens = itens;
+    }
 }
