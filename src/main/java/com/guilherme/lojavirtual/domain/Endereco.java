@@ -29,7 +29,7 @@ public class Endereco extends AbstractEntity<Integer>{
     @JoinColumn(name = "cidade_id")
     private Cidade cidade;
     
-    @JsonBackReference
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

@@ -22,7 +22,7 @@ public class Estado extends AbstractEntity<Integer>{
     
     private String nome;
     
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "estado")        
     List<Cidade> cidades = new ArrayList();
 
