@@ -25,4 +25,11 @@ public class CategoriaService {
         return repository.findById(id).orElseThrow(() -> new ObjectNotFoundErrorCustom("Objeto não encontrado para o Id: "
                 + id + ",Tipo: " + Categoria.class.getSimpleName()));
     }
+    
+    public Categoria save(Categoria categoria){
+        categoria.setId(null);
+        return repository.save(categoria);
+    }
+    
+    
 }
