@@ -9,6 +9,7 @@ import com.guilherme.lojavirtual.domain.Categoria;
 import com.guilherme.lojavirtual.repositories.CategoriaRepository;
 import com.guilherme.lojavirtual.services.exception.DataIntegrityViolationExceptionCustom;
 import com.guilherme.lojavirtual.services.exception.ObjectNotFoundErrorCustom;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -45,5 +46,9 @@ public class CategoriaService {
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationExceptionCustom("Não é possível deletar categorias que possuem produtos cadastrados");
         }
+    }
+
+    public List<Categoria> findAll() {
+        return repository.findAll();
     }
 }

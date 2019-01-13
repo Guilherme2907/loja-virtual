@@ -1,9 +1,11 @@
 package com.guilherme.lojavirtual.resources;
 
 import com.guilherme.lojavirtual.domain.Categoria;
+import com.guilherme.lojavirtual.dto.CategoriaDTO;
 import com.guilherme.lojavirtual.services.CategoriaService;
-import com.guilherme.lojavirtual.services.exception.DataIntegrityViolationExceptionCustom;
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +28,13 @@ public class CategoriaResource {
 
     @Autowired
     CategoriaService service;
+
+    @GetMapping
+    public ResponseEntity<List<CategoriaDTO>> findAll() {
+        List<Categoria> categorias = service.findAll();
+        List<CategoriaDTO> categoriasDto = categorias.stream().map(cat -> new CategoriaDTO(cat)).collect(Collectors.toList());
+        return ResponseEntity.ok(categoriasDto);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Categoria> findById(@PathVariable("id") Integer id) {
