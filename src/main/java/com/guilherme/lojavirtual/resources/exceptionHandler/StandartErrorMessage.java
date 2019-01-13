@@ -12,13 +12,13 @@ import java.io.Serializable;
  *
  * @author Guilherme
  */
-public class StandartError implements Serializable {
+public class StandartErrorMessage implements Serializable {
 
     private Integer status;
     private String message;
     private Long timeStamp;
 
-    public StandartError(Integer status, String message, Long timeStamp) {
+    public StandartErrorMessage(Integer status, String message, Long timeStamp) {
         this.status = status;
         this.message = message;
         this.timeStamp = timeStamp;
