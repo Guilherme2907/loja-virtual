@@ -6,6 +6,7 @@
 package com.guilherme.lojavirtual.services;
 
 import com.guilherme.lojavirtual.domain.Categoria;
+import com.guilherme.lojavirtual.dto.CategoriaDTO;
 import com.guilherme.lojavirtual.repositories.CategoriaRepository;
 import com.guilherme.lojavirtual.services.exception.DataIntegrityViolationExceptionCustom;
 import com.guilherme.lojavirtual.services.exception.ObjectNotFoundErrorCustom;
@@ -54,9 +55,15 @@ public class CategoriaService {
     public List<Categoria> findAll() {
         return repository.findAll();
     }
-    
-    public Page<Categoria> findAllPage(int page,int elementsPerPage,String direction,String orderBy){
+
+    public Page<Categoria> findAllPage(int page, int elementsPerPage, String direction, String orderBy) {
         PageRequest pageRequest = PageRequest.of(page, elementsPerPage, Sort.Direction.valueOf(direction), orderBy);
         return repository.findAll(pageRequest);
+    }
+
+    public Categoria toCategoria(CategoriaDTO categoriaDTO) {
+        Categoria categoria = new Categoria(categoriaDTO.getNome());
+        categoria.setId(categoriaDTO.getId());
+        return categoria;
     }
 }

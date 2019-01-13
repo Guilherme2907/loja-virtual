@@ -7,6 +7,8 @@ package com.guilherme.lojavirtual.dto;
 
 import com.guilherme.lojavirtual.domain.Categoria;
 import java.io.Serializable;
+import javax.validation.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Length;
 
 /**
  *
@@ -14,7 +16,10 @@ import java.io.Serializable;
  */
 public class CategoriaDTO implements Serializable{
     
+
     private Integer id;
+    @NotEmpty(message = "Nome obrigatório")
+    @Length(min = 5,max = 20,message = "Nome deve conter no mínimo {min} e no máximo {max}")
     private String nome;
     
 

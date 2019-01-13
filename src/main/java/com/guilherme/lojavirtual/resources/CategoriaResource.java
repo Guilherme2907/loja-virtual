@@ -6,6 +6,7 @@ import com.guilherme.lojavirtual.services.CategoriaService;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -56,14 +57,16 @@ public class CategoriaResource {
     }
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody Categoria categoria) {
-        Categoria categoriaSaved = service.save(categoria);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoriaSaved.getId()).toUri();
+    public ResponseEntity<Void> save(@Valid @RequestBody CategoriaDTO categoriaDto) {
+        Categoria categoria = service.toCategoria(categoriaDto);
+        categoria = service.save(categoria);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable("id") Integer id, @RequestBody Categoria categoria) {
+    public ResponseEntity<Void> update(@PathVariable("id") Integer id,@Valid @RequestBody CategoriaDTO categoriaDto) {
+        Categoria categoria = service.toCategoria(categoriaDto);
         categoria.setId(id);
         service.update(categoria);
         return ResponseEntity.noContent().build();
