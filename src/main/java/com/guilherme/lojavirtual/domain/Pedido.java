@@ -44,7 +44,8 @@ public class Pedido extends AbstractEntity<Integer> {
     public Pedido() {
     }
 
-    public Pedido(Date instante, Endereco enderecoEntrega, Cliente cliente) {
+    public Pedido(Integer id,Date instante, Endereco enderecoEntrega, Cliente cliente) {
+        super(id);
         this.instante = instante;
         this.enderecoEntrega = enderecoEntrega;
         this.cliente = cliente;

@@ -32,7 +32,8 @@ public class Produto extends AbstractEntity<Integer> {
     public Produto() {
     }
 
-    public Produto(String nome, double preco) {
+    public Produto(Integer id,String nome, double preco) {
+        super(id);
         this.nome = nome;
         this.preco = preco;
     }

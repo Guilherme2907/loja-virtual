@@ -27,9 +27,12 @@ public class Categoria extends AbstractEntity<Integer> {
         super();
     }
 
-    public Categoria(String nome) {
+    public Categoria(Integer id,String nome) {
+        super(id);
         this.nome = nome;
     }
+
+   
     
     public String getNome() {
         return nome;
@@ -45,7 +48,5 @@ public class Categoria extends AbstractEntity<Integer> {
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
-    }
-    
-    
+    }    
 }

@@ -28,7 +28,8 @@ public class Estado extends AbstractEntity<Integer>{
     public Estado() {
     }
 
-    public Estado(String nome) {
+    public Estado(Integer id,String nome) {
+        super(id);
         this.nome = nome;
     }
 

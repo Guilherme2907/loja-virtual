@@ -26,7 +26,7 @@ public class Cliente extends AbstractEntity<Integer> {
     private String nome;
     private String email;
     private String cpfOuCnpj;
-    private int tipoCliente;
+    private Integer tipoCliente;
 
     @OneToMany(mappedBy = "cidade")
     List<Endereco> enderecos = new ArrayList();
@@ -42,7 +42,8 @@ public class Cliente extends AbstractEntity<Integer> {
     public Cliente() {
     }
 
-    public Cliente(String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente) {
+    public Cliente(Integer id,String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente) {
+        super(id);
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;

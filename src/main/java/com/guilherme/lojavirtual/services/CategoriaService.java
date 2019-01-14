@@ -6,7 +6,6 @@
 package com.guilherme.lojavirtual.services;
 
 import com.guilherme.lojavirtual.domain.Categoria;
-import com.guilherme.lojavirtual.domain.Cliente;
 import com.guilherme.lojavirtual.dto.CategoriaDTO;
 import com.guilherme.lojavirtual.repositories.CategoriaRepository;
 import com.guilherme.lojavirtual.services.exception.DataIntegrityViolationExceptionCustom;
@@ -64,8 +63,7 @@ public class CategoriaService {
     }
 
     public Categoria toCategoria(CategoriaDTO categoriaDTO) {
-        Categoria categoria = new Categoria(categoriaDTO.getNome());
-        categoria.setId(categoriaDTO.getId());
+        Categoria categoria = new Categoria(categoriaDTO.getId(),categoriaDTO.getNome());
         return categoria;
     }
     

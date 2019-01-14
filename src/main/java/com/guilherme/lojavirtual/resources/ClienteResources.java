@@ -6,10 +6,8 @@
 package com.guilherme.lojavirtual.resources;
 
 import com.guilherme.lojavirtual.domain.Cliente;
-import com.guilherme.lojavirtual.domain.Cliente;
-import com.guilherme.lojavirtual.domain.Cliente;
 import com.guilherme.lojavirtual.dto.ClienteDTO;
-import com.guilherme.lojavirtual.dto.ClienteDTO;
+import com.guilherme.lojavirtual.dto.ClienteNewDTO;
 import com.guilherme.lojavirtual.services.ClienteService;
 import java.net.URI;
 import java.util.List;
@@ -42,9 +40,9 @@ public class ClienteResources {
 
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> findAll() {
-        List<Cliente> Clientes = service.findAll();
-        List<ClienteDTO> ClientesDto = Clientes.stream().map(cat -> new ClienteDTO(cat)).collect(Collectors.toList());
-        return ResponseEntity.ok(ClientesDto);
+        List<Cliente> clientes = service.findAll();
+        List<ClienteDTO> clientesDto = clientes.stream().map(cat -> new ClienteDTO(cat)).collect(Collectors.toList());
+        return ResponseEntity.ok(clientesDto);
     }
 
     @GetMapping("/page")
@@ -53,9 +51,9 @@ public class ClienteResources {
             @RequestParam(value = "direction", defaultValue = "ASC") String direction,
             @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy) {
 
-        Page<Cliente> ClientePage = service.findAllPage(page, elementsPerPage, direction, orderBy);
-        Page<ClienteDTO> ClienteDtoPage = ClientePage.map(cat -> new ClienteDTO(cat));
-        return ResponseEntity.ok(ClienteDtoPage);
+        Page<Cliente> clientePage = service.findAllPage(page, elementsPerPage, direction, orderBy);
+        Page<ClienteDTO> clienteDtoPage = clientePage.map(cat -> new ClienteDTO(cat));
+        return ResponseEntity.ok(clienteDtoPage);
     }
 
     @GetMapping("/{id}")
@@ -65,18 +63,18 @@ public class ClienteResources {
     }
 
     @PostMapping
-    public ResponseEntity<Void> save(@Valid @RequestBody ClienteDTO ClienteDto) {
-        Cliente Cliente = service.toCliente(ClienteDto);
+    public ResponseEntity<Void> save(@Valid @RequestBody ClienteNewDTO clienteNewDto) {
+        Cliente Cliente = service.toCliente(clienteNewDto);
         Cliente = service.save(Cliente);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(Cliente.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable("id") Integer id, @Valid @RequestBody ClienteDTO ClienteDto) {
-        Cliente Cliente = service.toCliente(ClienteDto);
-        Cliente.setId(id);
-        service.update(Cliente);
+    public ResponseEntity<Void> update(@PathVariable("id") Integer id, @Valid @RequestBody ClienteDTO clienteDto) {
+        Cliente cliente = service.toCliente(clienteDto);
+        cliente.setId(id);
+        service.update(cliente);
         return ResponseEntity.noContent().build();
     }
 
