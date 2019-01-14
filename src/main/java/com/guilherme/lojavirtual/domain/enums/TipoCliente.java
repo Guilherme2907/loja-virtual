@@ -31,6 +31,9 @@ public enum TipoCliente {
     }
 
     public static TipoCliente toEnum(int cod) {
+        if (cod == 0) {
+            return null;
+        }
         for (TipoCliente tipo : TipoCliente.values()) {
             if (tipo.getCodigo() == cod) {
                 return tipo;

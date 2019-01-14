@@ -38,14 +38,9 @@ public class ResourceExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorMessage> getMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         ValidationErrorMessage validationErrorMessage = new ValidationErrorMessage(HttpStatus.BAD_REQUEST.value(), "Erro na validação", System.currentTimeMillis());
-        List<String> errors = new ArrayList<>();
-        int count = 0;
         for (FieldError field : e.getBindingResult().getFieldErrors()) {
-            errors.add(field.getDefaultMessage());
-            validationErrorMessage.setErrors(field.getField(), errors);
-            count++;
+            validationErrorMessage.setErrors(field.getField(), field.getDefaultMessage());
         }
-        System.out.println(count);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationErrorMessage);        
     }
 }

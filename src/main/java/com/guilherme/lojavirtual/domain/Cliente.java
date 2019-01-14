@@ -20,7 +20,6 @@ import javax.persistence.OneToMany;
  *
  * @author Guilherme
  */
-
 @Entity
 public class Cliente extends AbstractEntity<Integer> {
 
@@ -29,19 +28,17 @@ public class Cliente extends AbstractEntity<Integer> {
     private String cpfOuCnpj;
     private int tipoCliente;
 
-
     @OneToMany(mappedBy = "cidade")
     List<Endereco> enderecos = new ArrayList();
 
     @ElementCollection
     @CollectionTable(name = "telefone")
     Set<String> telefones = new HashSet();
-    
+
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     List<Pedido> pedidos = new ArrayList<>();
 
- 
     public Cliente() {
     }
 
@@ -49,7 +46,11 @@ public class Cliente extends AbstractEntity<Integer> {
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
-        this.tipoCliente = tipoCliente.getCodigo();
+        this.tipoCliente = (tipoCliente == null) ? 0 : tipoCliente.getCodigo();
+    }
+
+    public Cliente(String nome) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getNome() {

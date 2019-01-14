@@ -5,6 +5,7 @@
  */
 package com.guilherme.lojavirtual.resources.exceptionHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,17 +16,17 @@ import java.util.Map;
  */
 public class ValidationErrorMessage extends StandartErrorMessage {
 
-    private Map<String, List<String>> errors = new HashMap();
+    List<FieldError> errors = new ArrayList();
 
     public ValidationErrorMessage(Integer status, String message, Long timeStamp) {
         super(status, message, timeStamp);
     }
 
-    public Map<String, List<String>> getErrors() {
+    public List<FieldError> getErrors() {
         return errors;
     }
 
-    public void setErrors(String field,List<String> messages) {
-        errors.put(field, messages);
-    } 
+    public void setErrors(String field,String message) {
+        errors.add(new FieldError(field,message));
+    }
 }
