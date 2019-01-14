@@ -30,8 +30,8 @@ public enum TipoCliente {
         return descricao;
     }
 
-    public static TipoCliente toEnum(int cod) {
-        if (cod == 0) {
+    public static TipoCliente toEnum(Integer cod) {
+        if (cod == null) {
             return null;
         }
         for (TipoCliente tipo : TipoCliente.values()) {

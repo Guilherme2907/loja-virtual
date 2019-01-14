@@ -38,9 +38,9 @@ public class ClienteService {
         return repository.save(cliente);
     }
 
-    public Cliente update(Cliente newCliente) {
-        Cliente cliente = findById(newCliente.getId());
-        newCliente = updateData(cliente,newCliente);
+    public Cliente update(Cliente cliente) {
+        Cliente newCliente = findById(cliente.getId());
+        newCliente = updateData(newCliente,cliente);
         return repository.save(newCliente);
     }
 
@@ -49,7 +49,7 @@ public class ClienteService {
         try {
             repository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationExceptionCustom("Não é possível deletar Clientes que possuem produtos cadastrados");
+            throw new DataIntegrityViolationExceptionCustom("Não é possível deletar clientes que possuem produtos pedidos cadastrados");
         }
     }
 
@@ -68,9 +68,9 @@ public class ClienteService {
         return cliente;
     }
     
-    public Cliente updateData(Cliente cliente,Cliente newCliente){
-        cliente.setNome(newCliente.getNome());
-        cliente.setEmail(newCliente.getEmail());
-        return cliente;
+    public Cliente updateData(Cliente newCliente,Cliente cliente){
+        newCliente.setNome(cliente.getNome());
+        newCliente.setEmail(cliente.getEmail());
+        return newCliente;
     }
 }

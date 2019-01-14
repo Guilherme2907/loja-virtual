@@ -10,9 +10,9 @@ package com.guilherme.lojavirtual.domain.enums;
  * @author Guilherme
  */
 public enum EstadoPagamento {
-    
-    PENDENTE(1,"Pendente"),QUITADO(2,"Quitado"),CANCELADO(3,"Cancelado");
-    
+
+    PENDENTE(1, "Pendente"), QUITADO(2, "Quitado"), CANCELADO(3, "Cancelado");
+
     private int codigo;
     private String descricao;
 
@@ -36,15 +36,17 @@ public enum EstadoPagamento {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    
-    
-    public static EstadoPagamento toEnum(int cod){
-        for(EstadoPagamento estadoPagamento : EstadoPagamento.values()){
-            if(estadoPagamento.getCodigo() == cod){
+
+    public static EstadoPagamento toEnum(Integer cod) {
+        if (cod == null) {
+            return null;
+        }
+        for (EstadoPagamento estadoPagamento : EstadoPagamento.values()) {
+            if (estadoPagamento.getCodigo() == cod) {
                 return estadoPagamento;
             }
         }
         throw new IllegalArgumentException("Código inválido");
     }
-    
+
 }

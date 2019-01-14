@@ -6,6 +6,7 @@
 package com.guilherme.lojavirtual.services;
 
 import com.guilherme.lojavirtual.domain.Categoria;
+import com.guilherme.lojavirtual.domain.Cliente;
 import com.guilherme.lojavirtual.dto.CategoriaDTO;
 import com.guilherme.lojavirtual.repositories.CategoriaRepository;
 import com.guilherme.lojavirtual.services.exception.DataIntegrityViolationExceptionCustom;
@@ -38,9 +39,10 @@ public class CategoriaService {
         return repository.save(categoria);
     }
 
-    public Categoria update(Categoria categoria) {
-        findById(categoria.getId());
-        return repository.save(categoria);
+     public Categoria update(Categoria categoria) {
+        Categoria newCategoria = findById(categoria.getId());
+        newCategoria = updateData(newCategoria,categoria);
+        return repository.save(newCategoria);
     }
 
     public void deleteById(Integer id) {
@@ -65,5 +67,10 @@ public class CategoriaService {
         Categoria categoria = new Categoria(categoriaDTO.getNome());
         categoria.setId(categoriaDTO.getId());
         return categoria;
+    }
+    
+     public Categoria updateData(Categoria newCategoria,Categoria categoria){
+        newCategoria.setNome(categoria.getNome());
+        return newCategoria;
     }
 }

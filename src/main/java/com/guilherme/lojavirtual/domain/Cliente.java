@@ -46,7 +46,7 @@ public class Cliente extends AbstractEntity<Integer> {
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
-        this.tipoCliente = (tipoCliente == null) ? 0 : tipoCliente.getCodigo();
+        this.tipoCliente = (tipoCliente == null) ? null : tipoCliente.getCodigo();
     }
 
     public Cliente(String nome) {
