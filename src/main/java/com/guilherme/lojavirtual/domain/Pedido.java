@@ -33,7 +33,6 @@ public class Pedido extends AbstractEntity<Integer> {
     @JoinColumn(name = "endereco_entrega_id")
     private Endereco enderecoEntrega;
 
-
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
@@ -44,11 +43,19 @@ public class Pedido extends AbstractEntity<Integer> {
     public Pedido() {
     }
 
-    public Pedido(Integer id,Date instante, Endereco enderecoEntrega, Cliente cliente) {
+    public Pedido(Integer id, Date instante, Endereco enderecoEntrega, Cliente cliente) {
         super(id);
         this.instante = instante;
         this.enderecoEntrega = enderecoEntrega;
         this.cliente = cliente;
+    }
+
+    public double getValorTotal() {
+        double soma = 0;
+        for (ItemPedido ip : itens) {
+            soma += ip.getSubTotal();
+        }
+        return soma;
     }
 
     public Pagamento getPagamento() {
