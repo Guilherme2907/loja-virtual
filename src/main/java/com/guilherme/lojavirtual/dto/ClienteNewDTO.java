@@ -5,10 +5,14 @@
  */
 package com.guilherme.lojavirtual.dto;
 
+import com.guilherme.lojavirtual.services.validation.ClienteInsert;
+
 /**
  *
  * @author Guilherme
  */
+
+@ClienteInsert
 public class ClienteNewDTO {
 
     private String nome;

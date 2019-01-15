@@ -63,7 +63,7 @@ public class ClienteService {
         try {
             clienteRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationExceptionCustom("Não é possível deletar clientes que possuem produtos pedidos cadastrados");
+            throw new DataIntegrityViolationExceptionCustom("Não é possível deletar clientes que possuem pedidos cadastrados");
         }
     }
 

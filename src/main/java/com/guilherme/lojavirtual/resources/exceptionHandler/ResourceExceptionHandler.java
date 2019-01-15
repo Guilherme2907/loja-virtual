@@ -7,8 +7,6 @@ package com.guilherme.lojavirtual.resources.exceptionHandler;
 
 import com.guilherme.lojavirtual.services.exception.DataIntegrityViolationExceptionCustom;
 import com.guilherme.lojavirtual.services.exception.ObjectNotFoundErrorCustom;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -37,7 +35,7 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorMessage> getMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        ValidationErrorMessage validationErrorMessage = new ValidationErrorMessage(HttpStatus.BAD_REQUEST.value(), "Erro na validação", System.currentTimeMillis());
+        ValidationErrorMessage validationErrorMessage = new ValidationErrorMessage(HttpStatus.BAD_REQUEST.value(), "Erro na validação!", System.currentTimeMillis());
         for (FieldError field : e.getBindingResult().getFieldErrors()) {
             validationErrorMessage.setErrors(field.getField(), field.getDefaultMessage());
         }

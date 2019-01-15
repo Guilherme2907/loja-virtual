@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -28,7 +29,7 @@ public class Cliente extends AbstractEntity<Integer> {
     private String cpfOuCnpj;
     private Integer tipoCliente;
 
-    @OneToMany(mappedBy = "cidade")
+    @OneToMany(mappedBy = "cidade",cascade = CascadeType.ALL)
     List<Endereco> enderecos = new ArrayList();
 
     @ElementCollection
