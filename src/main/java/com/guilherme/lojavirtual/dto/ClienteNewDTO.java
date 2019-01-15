@@ -6,34 +6,47 @@
 package com.guilherme.lojavirtual.dto;
 
 import com.guilherme.lojavirtual.services.validation.ClienteInsert;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Length;
 
 /**
  *
  * @author Guilherme
  */
-
 @ClienteInsert
 public class ClienteNewDTO {
 
+    @NotEmpty(message = "Campo obrigatório")
+    @Length(min = 5, max = 20, message = "Nome deve conter no mínimo {min} e no máximo {max}")
     private String nome;
+
+    @NotEmpty(message = "Email obrigatório")
+    @Email(message = "Email inválido")
     private String email;
     private String cpfOuCnpj;
+
+    
     private Integer tipoCliente;
 
+    @NotEmpty(message = "Campo obrigatório")
     private String logradouro;
+    @NotEmpty(message = "Campo obrigatório")
     private String numero;
     private String complemento;
     private String bairro;
+    @NotEmpty(message = "Campo obrigatório")
     private String cep;
-    
+
     private Integer cidadeId;
 
+    @NotEmpty(message = "Campo obrigatório")
     private String telefone1;
     private String telefone2;
 
     public ClienteNewDTO() {
     }
-    
+
     public ClienteNewDTO(String nome, String email, String cpfOuCnpj, Integer tipoCliente, String logradouro, String numero, String complemento, String bairro, String cep, Integer cidadeId, String telefone1, String telefone2) {
         this.nome = nome;
         this.email = email;

@@ -23,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -33,38 +34,13 @@ public class ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
-    
+
     @Autowired
     private EnderecoRepository enderecoRepository;
-
-    
-    
 
     public Cliente findById(Integer id) {
         return clienteRepository.findById(id).orElseThrow(() -> new ObjectNotFoundErrorCustom("Objeto não encontrado para o Id: "
                 + id + ",Tipo: " + Cliente.class.getSimpleName()));
-    }
-
-    public Cliente save(Cliente cliente) {
-        cliente.setId(null);
-        cliente = clienteRepository.save(cliente);
-        enderecoRepository.saveAll(cliente.getEnderecos());
-        return cliente;
-    }
-
-    public Cliente update(Cliente cliente) {
-        Cliente newCliente = findById(cliente.getId());
-        newCliente = updateData(newCliente, cliente);
-        return clienteRepository.save(newCliente);
-    }
-
-    public void deleteById(Integer id) {
-        findById(id);
-        try {
-            clienteRepository.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationExceptionCustom("Não é possível deletar clientes que possuem pedidos cadastrados");
-        }
     }
 
     public List<Cliente> findAll() {
@@ -74,6 +50,31 @@ public class ClienteService {
     public Page<Cliente> findAllPage(int page, int elementsPerPage, String direction, String orderBy) {
         PageRequest pageRequest = PageRequest.of(page, elementsPerPage, Sort.Direction.valueOf(direction), orderBy);
         return clienteRepository.findAll(pageRequest);
+    }
+
+    @Transactional
+    public Cliente save(Cliente cliente) {
+        cliente.setId(null);
+        cliente = clienteRepository.save(cliente);
+        enderecoRepository.saveAll(cliente.getEnderecos());
+        return cliente;
+    }
+
+
+    public Cliente update(Cliente cliente) {
+        Cliente newCliente = findById(cliente.getId());
+        newCliente = updateData(newCliente, cliente);
+        return clienteRepository.save(newCliente);
+    }
+
+
+    public void deleteById(Integer id) {
+        findById(id);
+        try {
+            clienteRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationExceptionCustom("Não é possível deletar clientes que possuem pedidos cadastrados");
+        }
     }
 
     public Cliente toCliente(ClienteDTO clienteDTO) {

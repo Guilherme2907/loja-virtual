@@ -33,14 +33,23 @@ public class CategoriaService {
                 + id + ",Tipo: " + Categoria.class.getSimpleName()));
     }
 
+    public List<Categoria> findAll() {
+        return repository.findAll();
+    }
+
+    public Page<Categoria> findAllPage(int page, int elementsPerPage, String direction, String orderBy) {
+        PageRequest pageRequest = PageRequest.of(page, elementsPerPage, Sort.Direction.valueOf(direction), orderBy);
+        return repository.findAll(pageRequest);
+    }
+
     public Categoria save(Categoria categoria) {
         categoria.setId(null);
         return repository.save(categoria);
     }
 
-     public Categoria update(Categoria categoria) {
+    public Categoria update(Categoria categoria) {
         Categoria newCategoria = findById(categoria.getId());
-        newCategoria = updateData(newCategoria,categoria);
+        newCategoria = updateData(newCategoria, categoria);
         return repository.save(newCategoria);
     }
 
@@ -53,21 +62,12 @@ public class CategoriaService {
         }
     }
 
-    public List<Categoria> findAll() {
-        return repository.findAll();
-    }
-
-    public Page<Categoria> findAllPage(int page, int elementsPerPage, String direction, String orderBy) {
-        PageRequest pageRequest = PageRequest.of(page, elementsPerPage, Sort.Direction.valueOf(direction), orderBy);
-        return repository.findAll(pageRequest);
-    }
-
     public Categoria toCategoria(CategoriaDTO categoriaDTO) {
-        Categoria categoria = new Categoria(categoriaDTO.getId(),categoriaDTO.getNome());
+        Categoria categoria = new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
         return categoria;
     }
-    
-     public Categoria updateData(Categoria newCategoria,Categoria categoria){
+
+    public Categoria updateData(Categoria newCategoria, Categoria categoria) {
         newCategoria.setNome(categoria.getNome());
         return newCategoria;
     }

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -25,6 +26,7 @@ import javax.persistence.OneToMany;
 public class Cliente extends AbstractEntity<Integer> {
 
     private String nome;
+    @Column(unique = true)
     private String email;
     private String cpfOuCnpj;
     private Integer tipoCliente;
@@ -49,10 +51,6 @@ public class Cliente extends AbstractEntity<Integer> {
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
         this.tipoCliente = (tipoCliente == null) ? null : tipoCliente.getCodigo();
-    }
-
-    public Cliente(String nome) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getNome() {
