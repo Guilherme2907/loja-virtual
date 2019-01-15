@@ -6,7 +6,7 @@
 package com.guilherme.lojavirtual.resources;
 
 import com.guilherme.lojavirtual.domain.Pedido;
-import com.guilherme.lojavirtual.services.PedidosService;
+import com.guilherme.lojavirtual.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PedidoResources {
     
     @Autowired
-    private PedidosService service;
+    private PedidoService service;
     
     @GetMapping("/{id}")
     public ResponseEntity<Pedido> findById(@PathVariable("id") Integer id){

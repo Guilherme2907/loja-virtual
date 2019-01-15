@@ -16,10 +16,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,7 +38,6 @@ public class ClienteResources {
     @Autowired
     ClienteService service;
 
-
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> findAll() {
         List<Cliente> clientes = service.findAll();
@@ -53,7 +50,8 @@ public class ClienteResources {
             @RequestParam(value = "elementsPerPage", defaultValue = "24") int elementsPerPage,
             @RequestParam(value = "direction", defaultValue = "ASC") String direction,
             @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy) {
-
+        
+        
         Page<Cliente> clientePage = service.findAllPage(page, elementsPerPage, direction, orderBy);
         Page<ClienteDTO> clienteDtoPage = clientePage.map(cat -> new ClienteDTO(cat));
         return ResponseEntity.ok(clienteDtoPage);

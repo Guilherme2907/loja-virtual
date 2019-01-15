@@ -1,12 +1,9 @@
 package com.guilherme.lojavirtual.services.validation;
 
 import com.guilherme.lojavirtual.domain.Cliente;
-import com.guilherme.lojavirtual.domain.enums.TipoCliente;
 import com.guilherme.lojavirtual.dto.ClienteDTO;
-import com.guilherme.lojavirtual.dto.ClienteNewDTO;
 import com.guilherme.lojavirtual.repositories.ClienteRepository;
 import com.guilherme.lojavirtual.resources.exceptionHandler.FieldError;
-import com.guilherme.lojavirtual.services.validation.utils.BR;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
