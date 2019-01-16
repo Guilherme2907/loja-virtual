@@ -30,12 +30,12 @@ public class Pedido extends AbstractEntity<Integer> {
     private Pagamento pagamento;
 
     @ManyToOne
-    @JoinColumn(name = "endereco_entrega_id")
-    private Endereco enderecoEntrega;
-
-    @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "endereco_entrega_id")
+    private Endereco enderecoEntrega;
 
     @OneToMany(mappedBy = "id.pedido")
     private Set<ItemPedido> itens = new HashSet();

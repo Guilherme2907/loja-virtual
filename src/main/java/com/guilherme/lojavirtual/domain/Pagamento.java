@@ -6,6 +6,8 @@
 package com.guilherme.lojavirtual.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.guilherme.lojavirtual.domain.enums.EstadoPagamento;
 import java.io.Serializable;
 import java.util.Objects;
@@ -22,12 +24,17 @@ import javax.persistence.OneToOne;
  * @author Guilherme
  */
 @Entity
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = PagamentoComBoleto.class, name = "pagamentoComBoleto"),
+    @JsonSubTypes.Type(value = PagamentoComCartao.class, name = "pagamentoComCartao")
+})
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Pagamento implements Serializable {
 
     @Id
     private Integer id;
-    
+
     private Integer estadoPagamento;
 
     @JsonIgnore
@@ -91,5 +98,5 @@ public abstract class Pagamento implements Serializable {
             return false;
         }
         return true;
-    } 
+    }
 }
