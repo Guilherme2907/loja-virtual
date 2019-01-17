@@ -6,6 +6,8 @@
 package com.guilherme.lojavirtual.config;
 
 import com.guilherme.lojavirtual.services.DBService;
+import com.guilherme.lojavirtual.services.EmailService;
+import com.guilherme.lojavirtual.services.MockEmailService;
 import java.text.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,5 +29,10 @@ public class TestConfig {
     public boolean instantiateTestDataBase() throws ParseException {
         dBService.instantiateTestDataBase();
         return true;
+    }
+    
+    @Bean
+    public EmailService emailService(){
+        return new MockEmailService();
     }
 }

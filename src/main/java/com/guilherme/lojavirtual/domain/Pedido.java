@@ -117,8 +117,9 @@ public class Pedido extends AbstractEntity<Integer> {
         sb.append("\nDetalhes:\n");
         for (ItemPedido ip : getItens()) {
             sb.append(ip.toString());
+            sb.append("\n");
         }
-        sb.append(", Valor total: ");
+        sb.append("Valor total: ");
         sb.append(nf.format(getValorTotal()));
         return sb.toString();
     }
