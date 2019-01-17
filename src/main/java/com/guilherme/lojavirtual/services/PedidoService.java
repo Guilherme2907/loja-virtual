@@ -9,6 +9,7 @@ import com.guilherme.lojavirtual.domain.ItemPedido;
 import com.guilherme.lojavirtual.domain.PagamentoComBoleto;
 import com.guilherme.lojavirtual.domain.Pedido;
 import com.guilherme.lojavirtual.domain.enums.EstadoPagamento;
+import com.guilherme.lojavirtual.repositories.ClienteRepository;
 import com.guilherme.lojavirtual.repositories.ItemPedidoRepository;
 import com.guilherme.lojavirtual.repositories.PagamentoRepository;
 import com.guilherme.lojavirtual.repositories.PedidoRepository;
@@ -39,6 +40,9 @@ public class PedidoService {
 
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
+    
+    @Autowired
+    private ClienteService clienteService;
 
     public Pedido findById(Integer id) {
         return pedidoRepository.findById(id).orElseThrow(() -> new ObjectNotFoundErrorCustom("Objeto não encontrado para o Id: "
@@ -51,6 +55,7 @@ public class PedidoService {
         pedido.setInstante(new Date());
         pedido.getPagamento().setEstadoPagamento(EstadoPagamento.PENDENTE);
         pedido.getPagamento().setPedido(pedido);
+        pedido.setCliente(clienteService.findById(pedido.getCliente().getId()));
         if (pedido.getPagamento() instanceof PagamentoComBoleto) {
             PagamentoComBoleto pcb = (PagamentoComBoleto) pedido.getPagamento();
             boletoService.setDatavencimento(pcb, pedido.getInstante());
@@ -61,10 +66,12 @@ public class PedidoService {
 
         for (ItemPedido ip : pedido.getItens()) {
             ip.setDesconto(0.0);
-            ip.setPreco(produtoService.findById(ip.getProduto().getId()).getPreco());
+            ip.setProduto(produtoService.findById(ip.getProduto().getId()));
+            ip.setPreco(ip.getProduto().getPreco());
             ip.setPedido(pedido);
         }
         itemPedidoRepository.saveAll(pedido.getItens());
+        System.out.println(pedido);
         return pedido;
     }
 }

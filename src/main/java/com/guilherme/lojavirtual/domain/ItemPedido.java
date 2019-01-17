@@ -7,6 +7,8 @@ package com.guilherme.lojavirtual.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -15,14 +17,13 @@ import javax.persistence.Entity;
  *
  * @author Guilherme
  */
-
 @Entity
-public class ItemPedido implements Serializable{
-    
+public class ItemPedido implements Serializable {
+
     @JsonIgnore
     @EmbeddedId
     private ItemPedidoPK id = new ItemPedidoPK();
-    
+
     private double desconto;
     private int quantidade;
     private double preco;
@@ -30,32 +31,32 @@ public class ItemPedido implements Serializable{
     public ItemPedido() {
     }
 
-    public ItemPedido(Produto produto,Pedido pedido, double desconto, int quantidade, double preco) {
+    public ItemPedido(Produto produto, Pedido pedido, double desconto, int quantidade, double preco) {
         id.setPedido(pedido);
         id.setProduto(produto);
         this.desconto = desconto;
         this.quantidade = quantidade;
         this.preco = preco;
     }
-    
-    public double getSubTotal(){
+
+    public double getSubTotal() {
         return (preco - desconto) * quantidade;
     }
-    
-    public Produto getProduto(){
-       return id.getProduto();
+
+    public Produto getProduto() {
+        return id.getProduto();
     }
-    
-     public void setProduto(Produto produto){
+
+    public void setProduto(Produto produto) {
         id.setProduto(produto);
     }
-    
+
     @JsonIgnore
-    public Pedido getPedido(){
-       return id.getPedido();
+    public Pedido getPedido() {
+        return id.getPedido();
     }
-    
-    public void setPedido(Pedido pedido){
+
+    public void setPedido(Pedido pedido) {
         id.setPedido(pedido);
     }
 
@@ -89,7 +90,7 @@ public class ItemPedido implements Serializable{
 
     public void setPreco(double preco) {
         this.preco = preco;
-    }   
+    }
 
     @Override
     public int hashCode() {
@@ -114,5 +115,19 @@ public class ItemPedido implements Serializable{
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        StringBuilder sb = new StringBuilder();
+        sb.append(getProduto().getNome());
+        sb.append(", Qtde: ");
+        sb.append(getQuantidade());
+        sb.append(", Preço unitário: ");
+        sb.append(nf.format(getPreco()));
+        sb.append(", Subtotal: ");
+        sb.append(nf.format(getSubTotal()));
+        return sb.toString();
     }
 }
