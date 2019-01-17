@@ -9,7 +9,6 @@ import com.guilherme.lojavirtual.domain.ItemPedido;
 import com.guilherme.lojavirtual.domain.PagamentoComBoleto;
 import com.guilherme.lojavirtual.domain.Pedido;
 import com.guilherme.lojavirtual.domain.enums.EstadoPagamento;
-import com.guilherme.lojavirtual.repositories.ClienteRepository;
 import com.guilherme.lojavirtual.repositories.ItemPedidoRepository;
 import com.guilherme.lojavirtual.repositories.PagamentoRepository;
 import com.guilherme.lojavirtual.repositories.PedidoRepository;
@@ -74,7 +73,7 @@ public class PedidoService {
             ip.setPedido(pedido);
         }
         itemPedidoRepository.saveAll(pedido.getItens());
-        emailService.sendOrderConfirmationEmail(pedido);
+        emailService.sendOrderConfirmationHtmlEmail(pedido);
         return pedido;
     }
 }

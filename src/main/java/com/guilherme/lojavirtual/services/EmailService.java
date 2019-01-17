@@ -6,6 +6,7 @@
 package com.guilherme.lojavirtual.services;
 
 import com.guilherme.lojavirtual.domain.Pedido;
+import javax.mail.internet.MimeMessage;
 import org.springframework.mail.SimpleMailMessage;
 
 /**
@@ -17,4 +18,8 @@ public interface EmailService {
     void sendOrderConfirmationEmail(Pedido pedido);
     
     void sendEmail(SimpleMailMessage sm);
+    
+    void sendOrderConfirmationHtmlEmail(Pedido obj); 
+    
+    void sendHtmlEmail(MimeMessage msg); 
 }

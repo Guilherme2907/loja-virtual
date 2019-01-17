@@ -30,7 +30,7 @@ public class DevConfig {
     private String strategy;
 
     @Bean
-    public boolean instantiateTestDataBase() throws ParseException {
+    public boolean instantiateDevDataBase() throws ParseException {
         if (!strategy.equals("create")) {
             return false;
         }
