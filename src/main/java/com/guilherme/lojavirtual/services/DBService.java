@@ -31,6 +31,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -41,31 +42,34 @@ import org.springframework.stereotype.Service;
 public class DBService {
 
     @Autowired
-    CategoriaRepository categoriaRepository;
+    private CategoriaRepository categoriaRepository;
 
     @Autowired
-    ProdutoRepository produtoRepository;
+    private ProdutoRepository produtoRepository;
 
     @Autowired
-    CidadeRepository cidadeRepository;
+    private CidadeRepository cidadeRepository;
 
     @Autowired
-    EstadoRepository estadoRepository;
+    private EstadoRepository estadoRepository;
 
     @Autowired
-    ClienteRepository clienteRepository;
+    private ClienteRepository clienteRepository;
 
     @Autowired
-    EnderecoRepository enderecoRepository;
+    private EnderecoRepository enderecoRepository;
 
     @Autowired
-    PedidoRepository pedidoRepository;
+    private PedidoRepository pedidoRepository;
 
     @Autowired
-    PagamentoRepository pagamentoRepository;
+    private PagamentoRepository pagamentoRepository;
 
     @Autowired
-    ItemPedidoRepository itemPedidoRepository;
+    private ItemPedidoRepository itemPedidoRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     public void instantiateTestDataBase() throws ParseException {
         Categoria cat1 = new Categoria(null, "Informática");
@@ -129,7 +133,8 @@ public class DBService {
         estadoRepository.saveAll(Arrays.asList(est1, est2));
         cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 
-        Cliente cli1 = new Cliente(null, "Guilherme Magalhães", "guilherme.magalhaes2907@gmail.com", "397924848", TipoCliente.PESSOAFISICA);
+        Cliente cli1 = new Cliente(null, "Guilherme Magalhães", "guilherme.magalhaes2907@gmail.com", "397924848",
+                TipoCliente.PESSOAFISICA, encoder.encode("123"));
         cli1.getTelefones().addAll(Arrays.asList("23078956", "23075892"));
         Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 203", "jardim", "38220834", c1, cli1);
         Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "centro", "78954899", c1, cli1);

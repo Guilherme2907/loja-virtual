@@ -26,6 +26,9 @@ import javax.persistence.OneToMany;
 public class Cliente extends AbstractEntity<Integer> {
 
     private String nome;
+    
+    private String senha;
+    
     @Column(unique = true)
     private String email;
     private String cpfOuCnpj;
@@ -45,12 +48,13 @@ public class Cliente extends AbstractEntity<Integer> {
     public Cliente() {
     }
 
-    public Cliente(Integer id,String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente) {
+    public Cliente(Integer id,String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente,String senha) {
         super(id);
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
         this.tipoCliente = (tipoCliente == null) ? null : tipoCliente.getCodigo();
+        this.senha = senha;
     }
 
     public String getNome() {
@@ -59,6 +63,14 @@ public class Cliente extends AbstractEntity<Integer> {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public String getEmail() {

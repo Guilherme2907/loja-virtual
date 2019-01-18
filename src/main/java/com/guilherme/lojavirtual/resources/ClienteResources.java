@@ -41,7 +41,7 @@ public class ClienteResources {
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> findAll() {
         List<Cliente> clientes = service.findAll();
-        List<ClienteDTO> clientesDto = clientes.stream().map(cat -> new ClienteDTO(cat)).collect(Collectors.toList());
+        List<ClienteDTO> clientesDto = clientes.stream().map(cli -> new ClienteDTO(cli)).collect(Collectors.toList());
         return ResponseEntity.ok(clientesDto);
     }
 

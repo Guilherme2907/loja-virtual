@@ -22,6 +22,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,9 @@ public class ClienteService {
 
     @Autowired
     private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     public Cliente findById(Integer id) {
         return clienteRepository.findById(id).orElseThrow(() -> new ObjectNotFoundErrorCustom("Objeto não encontrado para o Id: "
@@ -60,13 +64,11 @@ public class ClienteService {
         return cliente;
     }
 
-
     public Cliente update(Cliente cliente) {
         Cliente newCliente = findById(cliente.getId());
         newCliente = updateData(newCliente, cliente);
         return clienteRepository.save(newCliente);
     }
-
 
     public void deleteById(Integer id) {
         findById(id);
@@ -78,12 +80,13 @@ public class ClienteService {
     }
 
     public Cliente toCliente(ClienteDTO clienteDTO) {
-        Cliente cliente = new Cliente(clienteDTO.getId(), clienteDTO.getNome(), clienteDTO.getEmail(), null, null);
+        Cliente cliente = new Cliente(clienteDTO.getId(), clienteDTO.getNome(), clienteDTO.getEmail(), null, null, null);
         return cliente;
     }
 
     public Cliente toCliente(ClienteNewDTO cli) {
-        Cliente cliente = new Cliente(null, cli.getNome(), cli.getEmail(), cli.getCpfOuCnpj(), TipoCliente.toEnum(cli.getTipoCliente()));
+        Cliente cliente = new Cliente(null, cli.getNome(), cli.getEmail(), cli.getCpfOuCnpj(),
+                TipoCliente.toEnum(cli.getTipoCliente()), encoder.encode(cli.getSenha()));
         cliente.getTelefones().addAll(Arrays.asList(cli.getTelefone1(), cli.getTelefone2()));
         Cidade cidade = new Cidade(cli.getCidadeId(), null, null);
         Endereco endereco = new Endereco(null, cli.getLogradouro(), cli.getNumero(), cli.getComplemento(),

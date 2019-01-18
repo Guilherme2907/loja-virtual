@@ -5,6 +5,7 @@
  */
 package com.guilherme.lojavirtual.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.guilherme.lojavirtual.services.validation.ClienteInsert;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -20,6 +21,9 @@ public class ClienteNewDTO {
     @NotEmpty(message = "Campo obrigatório")
     @Length(min = 5, max = 20, message = "Nome deve conter no mínimo {min} e no máximo {max}")
     private String nome;
+    
+    @JsonIgnore
+    private String senha;
 
     @NotEmpty(message = "Email obrigatório")
     @Email(message = "Email inválido")
@@ -47,7 +51,8 @@ public class ClienteNewDTO {
     public ClienteNewDTO() {
     }
 
-    public ClienteNewDTO(String nome, String email, String cpfOuCnpj, Integer tipoCliente, String logradouro, String numero, String complemento, String bairro, String cep, Integer cidadeId, String telefone1, String telefone2) {
+    public ClienteNewDTO(String nome, String email, String cpfOuCnpj, Integer tipoCliente, String logradouro, String numero, String complemento, 
+            String bairro, String cep, Integer cidadeId, String telefone1, String telefone2,String senha) {
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
@@ -60,6 +65,7 @@ public class ClienteNewDTO {
         this.cidadeId = cidadeId;
         this.telefone1 = telefone1;
         this.telefone2 = telefone2;
+        this.senha = senha;
     }
 
     public String getNome() {
@@ -68,6 +74,14 @@ public class ClienteNewDTO {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public String getEmail() {
