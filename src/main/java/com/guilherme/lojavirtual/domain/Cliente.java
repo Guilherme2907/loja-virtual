@@ -6,17 +6,20 @@
 package com.guilherme.lojavirtual.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.guilherme.lojavirtual.domain.enums.Perfil;
 import com.guilherme.lojavirtual.domain.enums.TipoCliente;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
@@ -26,35 +29,42 @@ import javax.persistence.OneToMany;
 public class Cliente extends AbstractEntity<Integer> {
 
     private String nome;
-    
+
+    @JsonIgnore
     private String senha;
-    
+
     @Column(unique = true)
     private String email;
     private String cpfOuCnpj;
     private Integer tipoCliente;
 
-    @OneToMany(mappedBy = "cidade",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cidade", cascade = CascadeType.ALL)
     List<Endereco> enderecos = new ArrayList();
 
     @ElementCollection
     @CollectionTable(name = "telefone")
-    Set<String> telefones = new HashSet();
+    private Set<String> telefones = new HashSet();
+
+    @ElementCollection
+    @CollectionTable(name = "perfis")
+    Set<Integer> perfis = new HashSet();
 
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
-    List<Pedido> pedidos = new ArrayList<>();
+    private List<Pedido> pedidos = new ArrayList<>();
 
     public Cliente() {
+        addPerfil(Perfil.CLIENTE);
     }
 
-    public Cliente(Integer id,String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente,String senha) {
+    public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente, String senha) {
         super(id);
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
         this.tipoCliente = (tipoCliente == null) ? null : tipoCliente.getCodigo();
         this.senha = senha;
+        addPerfil(Perfil.CLIENTE);
     }
 
     public String getNome() {
@@ -103,6 +113,14 @@ public class Cliente extends AbstractEntity<Integer> {
 
     public void setTelefones(Set<String> telefones) {
         this.telefones = telefones;
+    }
+
+    public Set<Perfil> getPerfis() {
+        return perfis.stream().map(p -> Perfil.toEnum(p)).collect(Collectors.toSet());
+    }
+
+    public void addPerfil(Perfil perfil) {
+        perfis.add(perfil.getCod());
     }
 
     public TipoCliente getTipoCliente() {

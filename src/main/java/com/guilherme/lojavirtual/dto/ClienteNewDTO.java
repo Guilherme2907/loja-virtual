@@ -22,7 +22,7 @@ public class ClienteNewDTO {
     @Length(min = 5, max = 20, message = "Nome deve conter no mínimo {min} e no máximo {max}")
     private String nome;
     
-    @JsonIgnore
+
     private String senha;
 
     @NotEmpty(message = "Email obrigatório")
