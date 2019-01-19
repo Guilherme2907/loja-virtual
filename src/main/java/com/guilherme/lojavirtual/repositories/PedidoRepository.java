@@ -5,7 +5,10 @@
  */
 package com.guilherme.lojavirtual.repositories;
 
+import com.guilherme.lojavirtual.domain.Cliente;
 import com.guilherme.lojavirtual.domain.Pedido;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -14,4 +17,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface PedidoRepository  extends  JpaRepository<Pedido, Integer>{
     
+    Page<Pedido> findByCliente(Cliente cliente,Pageable pageable); 
 }

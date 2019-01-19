@@ -5,6 +5,7 @@
  */
 package com.guilherme.lojavirtual.services;
 
+import com.guilherme.lojavirtual.domain.Cliente;
 import com.guilherme.lojavirtual.domain.ItemPedido;
 import com.guilherme.lojavirtual.domain.PagamentoComBoleto;
 import com.guilherme.lojavirtual.domain.Pedido;
@@ -12,9 +13,14 @@ import com.guilherme.lojavirtual.domain.enums.EstadoPagamento;
 import com.guilherme.lojavirtual.repositories.ItemPedidoRepository;
 import com.guilherme.lojavirtual.repositories.PagamentoRepository;
 import com.guilherme.lojavirtual.repositories.PedidoRepository;
+import com.guilherme.lojavirtual.security.UserDetailsApp;
+import com.guilherme.lojavirtual.services.exception.AuthorizationException;
 import com.guilherme.lojavirtual.services.exception.ObjectNotFoundErrorCustom;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,10 +51,24 @@ public class PedidoService {
     
     @Autowired
     private EmailService emailService;
+    
+    @Autowired
+    private UserService userService;
 
     public Pedido findById(Integer id) {
         return pedidoRepository.findById(id).orElseThrow(() -> new ObjectNotFoundErrorCustom("Objeto não encontrado para o Id: "
                 + id + ",Tipo: " + Pedido.class.getSimpleName()));
+    }
+    
+    public Page<Pedido> findAllPage(Integer page,Integer elementsPerPage,String direction,String orderBy){
+        UserDetailsApp user = userService.authenticated();
+        PageRequest pageRequest = PageRequest.of(page, elementsPerPage, Sort.Direction.valueOf(direction), orderBy);
+        if(user == null){
+            throw new AuthorizationException("Acesso negado");
+        }
+        
+        Cliente cliente = clienteService.findById(user.getId());
+        return pedidoRepository.findByCliente(cliente, pageRequest);
     }
 
     @Transactional
