@@ -18,8 +18,8 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 /**
  *
@@ -45,7 +45,7 @@ public class Cliente extends AbstractEntity<Integer> {
     @CollectionTable(name = "telefone")
     private Set<String> telefones = new HashSet();
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "perfis")
     Set<Integer> perfis = new HashSet();
 

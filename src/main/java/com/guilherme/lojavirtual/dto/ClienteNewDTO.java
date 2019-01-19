@@ -5,7 +5,6 @@
  */
 package com.guilherme.lojavirtual.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.guilherme.lojavirtual.services.validation.ClienteInsert;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -22,7 +21,7 @@ public class ClienteNewDTO {
     @Length(min = 5, max = 20, message = "Nome deve conter no mínimo {min} e no máximo {max}")
     private String nome;
     
-
+    @NotEmpty(message = "Campo obrigatório")
     private String senha;
 
     @NotEmpty(message = "Email obrigatório")
