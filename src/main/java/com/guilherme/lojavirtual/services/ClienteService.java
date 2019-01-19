@@ -8,11 +8,14 @@ package com.guilherme.lojavirtual.services;
 import com.guilherme.lojavirtual.domain.Cidade;
 import com.guilherme.lojavirtual.domain.Cliente;
 import com.guilherme.lojavirtual.domain.Endereco;
+import com.guilherme.lojavirtual.domain.enums.Perfil;
 import com.guilherme.lojavirtual.domain.enums.TipoCliente;
 import com.guilherme.lojavirtual.dto.ClienteDTO;
 import com.guilherme.lojavirtual.dto.ClienteNewDTO;
 import com.guilherme.lojavirtual.repositories.ClienteRepository;
 import com.guilherme.lojavirtual.repositories.EnderecoRepository;
+import com.guilherme.lojavirtual.security.UserDetailsApp;
+import com.guilherme.lojavirtual.services.exception.AuthorizationException;
 import com.guilherme.lojavirtual.services.exception.DataIntegrityViolationExceptionCustom;
 import com.guilherme.lojavirtual.services.exception.ObjectNotFoundErrorCustom;
 import java.util.Arrays;
@@ -42,7 +45,15 @@ public class ClienteService {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
+    @Autowired
+    private UserService userService;
+
     public Cliente findById(Integer id) {
+        UserDetailsApp user = userService.authenticated();
+
+        if (user == null || (!user.hasRole(Perfil.ADMIN) && !user.getId().equals(id))) {
+            throw new AuthorizationException("Acesso negado");
+        }
         return clienteRepository.findById(id).orElseThrow(() -> new ObjectNotFoundErrorCustom("Objeto não encontrado para o Id: "
                 + id + ",Tipo: " + Cliente.class.getSimpleName()));
     }

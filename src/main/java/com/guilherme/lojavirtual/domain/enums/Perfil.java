@@ -5,7 +5,6 @@
  */
 package com.guilherme.lojavirtual.domain.enums;
 
-import java.util.Arrays;
 
 /**
  *

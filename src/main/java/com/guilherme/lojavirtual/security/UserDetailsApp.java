@@ -6,9 +6,7 @@
 package com.guilherme.lojavirtual.security;
 
 import com.guilherme.lojavirtual.domain.enums.Perfil;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
@@ -73,6 +71,10 @@ public class UserDetailsApp implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean hasRole(Perfil perfil) {
+       return getAuthorities().contains(new SimpleGrantedAuthority((perfil.getDescricao())));
     }
 
 }
