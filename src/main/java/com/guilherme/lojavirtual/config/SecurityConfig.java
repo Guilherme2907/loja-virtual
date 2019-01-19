@@ -6,6 +6,7 @@
 package com.guilherme.lojavirtual.config;
 
 import com.guilherme.lojavirtual.security.JWTAuthenticationFilter;
+import com.guilherme.lojavirtual.security.JWTAuthorizationFilter;
 import com.guilherme.lojavirtual.security.JWTUtil;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PUBLIC_MATCHERS = {"/h2-console/**"};
 
-    private static final String[] PUBLIC_MATCHERS_GET = {"/pedidos/**", "/categorias/**", "/clientes/**"};
+    private static final String[] PUBLIC_MATCHERS_GET = {"/produtos/**", "/categorias/**", "/clientes/**"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -56,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
                 .anyRequest().authenticated();
         http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jWTUtil));
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jWTUtil, userDetailsService));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
