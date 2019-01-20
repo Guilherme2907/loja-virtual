@@ -5,6 +5,7 @@
  */
 package com.guilherme.lojavirtual.services;
 
+import com.guilherme.lojavirtual.domain.Cliente;
 import com.guilherme.lojavirtual.domain.Pedido;
 import java.util.Date;
 import javax.mail.MessagingException;
@@ -22,22 +23,22 @@ import org.thymeleaf.context.Context;
  * @author Guilherme
  */
 public abstract class AbstractEmailService implements EmailService {
-
+    
     @Value("${default.sender}")
     private String sender;
-
+    
     @Autowired
     private JavaMailSender javaMailSender;
-
+    
     @Autowired
     private TemplateEngine templateEngine;
-
+    
     @Override
     public void sendOrderConfirmationEmail(Pedido pedido) {
         SimpleMailMessage sm = prepareSimpleMailMessageFromPedido(pedido);
         sendEmail(sm);
     }
-
+    
     protected SimpleMailMessage prepareSimpleMailMessageFromPedido(Pedido pedido) {
         SimpleMailMessage sm = new SimpleMailMessage();
         sm.setTo(pedido.getCliente().getEmail());
@@ -47,13 +48,13 @@ public abstract class AbstractEmailService implements EmailService {
         sm.setText(pedido.toString());
         return sm;
     }
-
+    
     protected String htmlFromTemplatePedido(Pedido pedido) {
         Context context = new Context();
         context.setVariable("pedido", pedido);
         return templateEngine.process("email/confirmacaoPedido", context);
     }
-
+    
     @Override
     public void sendOrderConfirmationHtmlEmail(Pedido pedido) {
         try {
@@ -63,7 +64,7 @@ public abstract class AbstractEmailService implements EmailService {
             sendOrderConfirmationEmail(pedido);
         }
     }
-
+    
     protected MimeMessage prepareMimeMessageFromPedido(Pedido pedido) throws MessagingException {
         MimeMessage mm = javaMailSender.createMimeMessage();
         MimeMessageHelper mmh = new MimeMessageHelper(mm);
@@ -71,7 +72,24 @@ public abstract class AbstractEmailService implements EmailService {
         mmh.setFrom(sender);
         mmh.setSubject("Pedido confirmado,Código: " + pedido.getId());
         mmh.setSentDate(new Date(System.currentTimeMillis()));
-        mmh.setText(htmlFromTemplatePedido(pedido),true);
+        mmh.setText(htmlFromTemplatePedido(pedido), true);
         return mm;
     }
+    
+    @Override
+    public void sendNewEmail(Cliente cliente, String newPass) {
+        SimpleMailMessage sm = prepareSimpleMailMessagePassword(cliente, newPass);
+        sendEmail(sm);
+    }
+    
+    private SimpleMailMessage prepareSimpleMailMessagePassword(Cliente cliente, String newPass) {
+        SimpleMailMessage sm = new SimpleMailMessage();
+        sm.setTo(cliente.getEmail());
+        sm.setSubject("Confirmação de nova senha");
+        sm.setFrom(sender);
+        sm.setSentDate(new Date(System.currentTimeMillis()));
+        sm.setText("Nova senha: " + newPass);
+        return sm;
+    }
+    
 }
