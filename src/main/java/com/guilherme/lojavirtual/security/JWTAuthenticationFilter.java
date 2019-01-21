@@ -28,17 +28,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @author Guilherme
  */
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    
+
     private AuthenticationManager authenticationManager;
-    
+
     private JWTUtil jWTUtil;
-    
+
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jWTUtil) {
         setAuthenticationFailureHandler(new JWTAuthenticationFailureHandler());
         this.authenticationManager = authenticationManager;
         this.jWTUtil = jWTUtil;
     }
-    
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
@@ -50,31 +50,32 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throw new RuntimeException(ex);
         }
     }
-    
+
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
         String username = ((UserDetailsApp) auth.getPrincipal()).getUsername();
         String token = jWTUtil.generateToken(username);
         res.addHeader("Authorization", "Bearer " + token);
+        res.addHeader("access-control-expose-headers", "Authorization");
     }
-    
+
     private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {
-        
+
         @Override
         public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
                 throws IOException, ServletException {
-            
+
             response.setStatus(401);
-            
+
             response.setContentType("application/json");
-            
-            response.getWriter().append(json());            
+
+            response.getWriter().append(json());
         }
-        
+
         private String json() {
-            
+
             long date = new Date().getTime();
-            
+
             return "{\"timestamp\": " + date + ", "
                     + "\"status\": 401, "
                     + "\"error\": \"Não autorizado\", "

@@ -38,6 +38,6 @@ public class AuthService {
         String newPass = SenhaUtil.createNewPass();
         cliente.setSenha(encoder.encode(newPass));
         clienteRepository.save(cliente);
-        emailService.sendNewEmail(cliente, newPass);
+        emailService.sendNewPassEmail(cliente, newPass);
     }
 }
