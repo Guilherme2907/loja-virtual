@@ -39,6 +39,18 @@ public class ClienteResources {
     @Autowired
     ClienteService service;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> findById(@PathVariable("id") Integer id) {
+        Cliente Cliente = service.findById(id);
+        return ResponseEntity.ok(Cliente);
+    }
+
+    @GetMapping("/email")
+    public ResponseEntity<Cliente> findByEmail(@RequestParam("value") String email) {
+        Cliente cliente = service.findByEmail(email);
+        return ResponseEntity.ok(cliente);
+    }
+
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> findAll() {
@@ -57,12 +69,6 @@ public class ClienteResources {
         Page<Cliente> clientePage = service.findAllPage(page, elementsPerPage, direction, orderBy);
         Page<ClienteDTO> clienteDtoPage = clientePage.map(cat -> new ClienteDTO(cat));
         return ResponseEntity.ok(clienteDtoPage);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Cliente> findById(@PathVariable("id") Integer id) {
-        Cliente Cliente = service.findById(id);
-        return ResponseEntity.ok(Cliente);
     }
 
     @PostMapping

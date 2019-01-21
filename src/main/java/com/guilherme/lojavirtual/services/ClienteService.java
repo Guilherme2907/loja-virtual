@@ -58,6 +58,16 @@ public class ClienteService {
                 + id + ",Tipo: " + Cliente.class.getSimpleName()));
     }
 
+    public Cliente findByEmail(String email) {
+        UserDetailsApp user = userService.authenticated();
+
+        if (user == null || !user.hasRole(Perfil.ADMIN) && !user.getUsername().equals(email)) {
+            throw new AuthorizationException("Acesso negado");
+        }
+
+        return clienteRepository.findByEmail(email);
+    }
+
     public List<Cliente> findAll() {
         return clienteRepository.findAll();
     }
