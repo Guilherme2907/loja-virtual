@@ -16,8 +16,11 @@ public class ValidationErrorMessage extends StandartErrorMessage {
 
     List<FieldError> errors = new ArrayList();
 
-    public ValidationErrorMessage(Integer status, String message, Long timeStamp) {
-        super(status, message, timeStamp);
+    public ValidationErrorMessage() {
+    }
+
+    public ValidationErrorMessage(Long timeStamp, Integer status, String error, String message, String path) {
+        super(timeStamp, status, error, message, path);
     }
 
     public List<FieldError> getErrors() {

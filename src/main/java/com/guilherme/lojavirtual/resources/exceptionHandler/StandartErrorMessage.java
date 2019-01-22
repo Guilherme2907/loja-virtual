@@ -5,7 +5,6 @@
  */
 package com.guilherme.lojavirtual.resources.exceptionHandler;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 
 /**
@@ -14,13 +13,28 @@ import java.io.Serializable;
  */
 public class StandartErrorMessage implements Serializable {
 
-    private Integer status;
-    private String message;
     private Long timeStamp;
+    private Integer status;
+    private String error;
+    private String message;
+    private String path;
 
-    public StandartErrorMessage(Integer status, String message, Long timeStamp) {
+    public StandartErrorMessage() {
+    }
+
+    public StandartErrorMessage(Long timeStamp, Integer status, String error, String message, String path) {
+        this.timeStamp = timeStamp;
         this.status = status;
+        this.error = error;
         this.message = message;
+        this.path = path;
+    }
+
+    public Long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Long timeStamp) {
         this.timeStamp = timeStamp;
     }
 
@@ -32,6 +46,14 @@ public class StandartErrorMessage implements Serializable {
         this.status = status;
     }
 
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
     public String getMessage() {
         return message;
     }
@@ -40,12 +62,11 @@ public class StandartErrorMessage implements Serializable {
         this.message = message;
     }
 
-    public Long getTimeStamp() {
-        return timeStamp;
+    public String getPath() {
+        return path;
     }
 
-    public void setTimeStamp(Long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setPath(String path) {
+        this.path = path;
     }
-
 }

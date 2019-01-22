@@ -8,6 +8,7 @@ package com.guilherme.lojavirtual.resources.exceptionHandler;
 import com.guilherme.lojavirtual.services.exception.AuthorizationException;
 import com.guilherme.lojavirtual.services.exception.DataIntegrityViolationExceptionCustom;
 import com.guilherme.lojavirtual.services.exception.ObjectNotFoundErrorCustom;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -23,20 +24,23 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ResourceExceptionHandler {
 
     @ExceptionHandler(ObjectNotFoundErrorCustom.class)
-    public ResponseEntity<StandartErrorMessage> getObjectNotFoundException(ObjectNotFoundErrorCustom exc) {
-        StandartErrorMessage standartError = new StandartErrorMessage(HttpStatus.NOT_FOUND.value(), exc.getMessage(), System.currentTimeMillis());
+    public ResponseEntity<StandartErrorMessage> getObjectNotFoundException(ObjectNotFoundErrorCustom e, HttpServletRequest req) {
+        StandartErrorMessage standartError = new StandartErrorMessage(System.currentTimeMillis(),
+                HttpStatus.NOT_FOUND.value(), "Não encontrado", e.getMessage(), req.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standartError);
     }
 
     @ExceptionHandler(DataIntegrityViolationExceptionCustom.class)
-    public ResponseEntity<StandartErrorMessage> getDataIntegrityViolationException(DataIntegrityViolationExceptionCustom e) {
-        StandartErrorMessage standartError = new StandartErrorMessage(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+    public ResponseEntity<StandartErrorMessage> getDataIntegrityViolationException(DataIntegrityViolationExceptionCustom e, HttpServletRequest req) {
+        StandartErrorMessage standartError = new StandartErrorMessage(System.currentTimeMillis(),
+                HttpStatus.BAD_REQUEST.value(), "Integridade de Dados", e.getMessage(), req.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standartError);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationErrorMessage> getMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        ValidationErrorMessage validationErrorMessage = new ValidationErrorMessage(HttpStatus.BAD_REQUEST.value(), "Erro na validação!", System.currentTimeMillis());
+    public ResponseEntity<ValidationErrorMessage> getMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest req) {
+        ValidationErrorMessage validationErrorMessage = new ValidationErrorMessage(System.currentTimeMillis(),
+                HttpStatus.BAD_REQUEST.value(), "Campos inválidos", e.getMessage(), req.getRequestURI());
         for (FieldError field : e.getBindingResult().getFieldErrors()) {
             validationErrorMessage.setErrors(field.getField(), field.getDefaultMessage());
         }
@@ -44,8 +48,9 @@ public class ResourceExceptionHandler {
     }
 
     @ExceptionHandler(AuthorizationException.class)
-    public ResponseEntity<StandartErrorMessage> getAuthorizationException(AuthorizationException e) {
-        StandartErrorMessage standartError = new StandartErrorMessage(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
+    public ResponseEntity<StandartErrorMessage> getAuthorizationException(AuthorizationException e, HttpServletRequest req) {
+        StandartErrorMessage standartError = new StandartErrorMessage(System.currentTimeMillis(),
+                HttpStatus.FORBIDDEN.value(), "Integridade de Dados", e.getMessage(), req.getRequestURI());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(standartError);
     }
 }
