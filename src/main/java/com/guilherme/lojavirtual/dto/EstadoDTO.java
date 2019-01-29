@@ -14,12 +14,15 @@ import java.io.Serializable;
  */
 public class EstadoDTO implements Serializable {
 
+    private Integer id;
+    
     private String nome;
 
     public EstadoDTO() {
     }
 
     public EstadoDTO(Estado estado) {
+        this.id = estado.getId();
         this.nome = estado.getNome();
     }
 
@@ -30,4 +33,12 @@ public class EstadoDTO implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }  
 }

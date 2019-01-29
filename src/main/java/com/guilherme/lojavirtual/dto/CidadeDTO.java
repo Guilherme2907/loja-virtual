@@ -13,6 +13,7 @@ import java.io.Serializable;
  * @author Guilherme
  */
 public class CidadeDTO implements Serializable{
+    private Integer id;
     
     private String nome;
 
@@ -20,6 +21,7 @@ public class CidadeDTO implements Serializable{
     }
 
     public CidadeDTO(Cidade cidade) {
+        this.id = cidade.getId();
         this.nome = cidade.getNome();
     }
 
@@ -30,4 +32,12 @@ public class CidadeDTO implements Serializable{
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }  
 }

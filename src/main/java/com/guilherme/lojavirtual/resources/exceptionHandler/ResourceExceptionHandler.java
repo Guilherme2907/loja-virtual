@@ -40,11 +40,11 @@ public class ResourceExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorMessage> getMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest req) {
         ValidationErrorMessage validationErrorMessage = new ValidationErrorMessage(System.currentTimeMillis(),
-                HttpStatus.BAD_REQUEST.value(), "Campos inválidos", e.getMessage(), req.getRequestURI());
+                HttpStatus.UNPROCESSABLE_ENTITY.value(), "Campos inválidos", e.getMessage(), req.getRequestURI());
         for (FieldError field : e.getBindingResult().getFieldErrors()) {
             validationErrorMessage.setErrors(field.getField(), field.getDefaultMessage());
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationErrorMessage);
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(validationErrorMessage);
     }
 
     @ExceptionHandler(AuthorizationException.class)
